@@ -50,8 +50,9 @@ public:
                 {
                     array[i] = array[i - 1];
                 }
-                size++;
+                
                 array[position] = element;
+                size++;
             }
         }
     }

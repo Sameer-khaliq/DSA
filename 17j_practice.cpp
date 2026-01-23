@@ -36,6 +36,49 @@ void inputelement(){
   array[position]=element;
   size++;
 }
+void deleteelement(){
+     cout<<"Enter position to delete the element: ";
+        cin>>position;
+        if (position>=size){
+            cout<<"Invalid position!";
+        }
+        else{
+            for(int i=position; i<size; i++){
+                array[i]= array[i+1];
+            }
+            size--;
+
+        }
+}
+void update_element(){
+        int new_element;
+        cout<<"Enter the position to be updated: ";
+        cin>>position;
+        cout<<"Enter new element: ";
+        cin>>new_element;
+        if (position>=size){
+            cout<<"Invalid position!";
+        }
+        else{
+           array[position]= new_element;
+        }
+    }
+void searchelement(){
+    int target;
+    bool isfound;
+isfound = false;
+    cout<<"Enter target: ";
+    cin>>target;
+     for(int i=0; i<size; i++){
+      if(array[i]==target){
+        cout<<"Target is at: "<<i<<endl;
+        isfound = true;
+      }
+    }
+    if(isfound == false){
+      cout<<"Not found!"<<endl;
+    }
+}
 void printarray(){
     cout<<"The new array is: "<<endl;
     for (int i=0; i<size; i++){
@@ -52,8 +95,11 @@ int main(){
         cout<<"1.Input the size of array "<<endl;
         cout<<"2.Input the elements of array "<<endl;
         cout<<"3.Insert the element into array "<<endl;
-        cout<<"4.Print the elements of array "<<endl;
-        cout<<"5.Exit "<<endl;
+        cout<<"4.Delete the element from array"<<endl;
+        cout<<"5.Update the element from an array"<<endl;
+        cout<<"6.Search the element from an array"<<endl;
+        cout<<"7.Print the elements of array "<<endl;
+        cout<<"8.Exit "<<endl;
         cout<<"Enter your choice: ";
         cin>>choice;
         switch (choice){
@@ -67,16 +113,24 @@ int main(){
             obj.inputelement();
             break;
             case 4:
-            obj.printarray();
+            obj.deleteelement();
             break;
             case 5:
-            cout<<"Exiting the program."<<endl;
+            obj.update_element();
             break;
+            case 6:
+            obj.searchelement();
+            break;
+            case 7:
+            obj.printarray();
+            break;
+            case 8:
+            cout<<"Exiting the array!!!!!!"<<endl;
             default:    
             cout<<"Invalid choice! Please try again."<<endl;
             break;
 
         }
 
-    }while(choice!=5);
+    }while(choice!=8);
 }
