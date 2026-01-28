@@ -1,4 +1,4 @@
-#include <iostream> //ye 2 lines toa aati e hain hum ko
+#include <iostream> //ye 2 lines toa aati e hain ham ko
 using namespace std;
 
 class node //node naam ki class banaayi aik yaahan just bana lo
@@ -23,8 +23,14 @@ class list{ //list ki class banaayi
         tail = NULL;
     }
 
-    void create(int val){ // create ka function new node ko jorrne k liye
-        node* temp = new node(val);//temp ki node bnaayi new ka keyword use kiya aur constructor k through value store hui
+    void create(){ // create ka function new node ko jorrne k liye
+         int n,val;
+        cout << "Kitne elements add karne hain: ";
+        cin >> n;
+     for(int i = 0; i < n; i++) { 
+        cout << "Element " << i+1 << " enter karein: ";
+        cin >> val;
+         node* temp = new node(val);//temp ki node bnaayi new ka keyword use kiya aur constructor k through value store hui
         if(head == NULL){//agr head null ho toa pehle node exist ni kar rahi aur jo hum bana rahe wohi head aur tail hogi
             head = temp;
             tail = temp;
@@ -34,6 +40,7 @@ class list{ //list ki class banaayi
             tail = temp;// aur tail ab nayi aanay waali node temp ban jaayegi
         }
     }
+    }
 
     void display(){ // linked list ko display karein ge ab
         node* temp = head; //temp naam ka pointer banaaya aur head se check karna shroo karein ge
@@ -41,12 +48,120 @@ class list{ //list ki class banaayi
             cout << temp->value << " "; // print karo temp waale ki stored value
             temp = temp->next;// show karne k baad temp jo hai wo temp k next node k equal ho jaaygi
         }
+        cout << endl;
+    }
+
+    void insert_at_start(){
+        if (head == NULL){ // Check kiya k list bani bhi hai ya nahi
+            cout << "Pehle jaa k list banaao!!!!" << endl;
+            return; 
+        }
+        int new_value;
+        cout<<"Enter value you want to enter at start: ";
+        cin >> new_value;
+        node* temp= new node(new_value); // new node banaayi
+        temp->next= head; //temp k next ko existing head k equal kiya matlab k new node k next main existing head ka data store ho jaay
+        head = temp; //head ab temp ban jaay ga
+    }
+
+    void insertion_at_last()
+    {  
+        if (head == NULL){ // Check kiya k list bani bhi hai ya nahi
+            cout << "Pehle jaa k list banaao!!!!" << endl;
+            return;
+        }
+        int new_value;
+        cout<<"Enter value you want to enter at end: ";
+        cin>>new_value;
+        node* temp= new node(new_value); // nayi node banayi temp naam se
+        tail->next= temp; // tail k next main ab nayi node (temp) ka address daal dia
+        tail = temp; // aur ab tail khud temp ban gayi
+    }
+
+    void insert_at_specific(){
+        if (head == NULL){ // Check kiya k list bani bhi hai ya nahi
+            cout << "Pehle jaa k list banaao!!!!" << endl;
+            return;
+        }
+        node* previous, *current; // do pointers liye tracking k liye
+        int position,count=1,new_value;
+        cout<<"Enter position where you want to enter new node: ";
+        cin>>position;
+        cout<<"Enter value to enter at "<<position<<": ";
+        cin>>new_value;
+        node *temp= new node(new_value); // wo node jo insert karni hai
+        previous = NULL; // start main previous null hoga
+        current= head; // current ko head se start karenge
+        while(count!= position){ // jab tak count position k barabar na ho jaye
+            previous = current; // peeche wala pointer current pe aa gaya
+            current= current->next; // current wala agay nikal gaya
+            count++; // position count barhti gayi
+        }
+        if (count==position){ // jab position mil jaye
+            previous->next= temp; // peeche wali node ko nayi node (temp) se jorr dia
+            temp->next=current; // nayi node k next main current (agay wali node) ka address daal dia
+        }
     }
 };
 
 int main(){
     list l; //list ka object l
-    l.create(22);// 22 store huva
-    l.create(33);//33 store huva
-    l.display();//display KAR DOA jo jo hai linked list mein
+    int choice;
+    do {
+        cout << "\n===== MAIN MENU =====\n";
+        cout << "1. Create Linked List\n";
+        cout << "2. Insert Node\n";
+        cout << "3. Display List\n";
+        cout << "0. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            l.create();
+            break;
+
+        case 2: {
+            int insert_choice;
+            do {
+                cout << "\n--- INSERT MENU ---\n";
+                cout << "1. Insert at Start\n";
+                cout << "2. Insert at End\n";
+                cout << "3. Insert at Position\n";
+                cout << "0. Back to Main Menu\n";
+                cout << "Enter choice: ";
+                cin >> insert_choice;
+
+                switch (insert_choice) {
+                case 1:
+                    l.insert_at_start();
+                    break;
+                case 2:
+                    l.insertion_at_last();
+                    break;
+                case 3:
+                    l.insert_at_specific();
+                    break;
+                case 0:
+                    break;
+                default:
+                    cout << "Invalid option!\n";
+                }
+            } while (insert_choice != 0);
+            break;
+        }
+
+        case 3:
+            l.display();
+            break;
+
+        case 0:
+            cout << "aaj k liye itna e kaafi hai aap ki tarah hum b maayoos hain!!!!!!...\n";
+            break;
+
+        default:
+            cout << "Invalid choice!\n";
+        }
+
+    } while (choice != 0);
 }
