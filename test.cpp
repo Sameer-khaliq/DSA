@@ -52,9 +52,9 @@ class list{ //list ki class banaayi
     }
 
     void insert_at_start(){
-        if (head == NULL){ // Check kiya k list bani bhi hai ya nahi
+        if (head == NULL){ // check kiya k list bani hai ya nahi
             cout << "Pehle jaa k list banaao!!!!" << endl;
-            return; 
+            return;
         }
         int new_value;
         cout<<"Enter value you want to enter at start: ";
@@ -66,7 +66,7 @@ class list{ //list ki class banaayi
 
     void insertion_at_last()
     {  
-        if (head == NULL){ // Check kiya k list bani bhi hai ya nahi
+        if (head == NULL){ // check kiya k list bani hai ya nahi
             cout << "Pehle jaa k list banaao!!!!" << endl;
             return;
         }
@@ -79,7 +79,7 @@ class list{ //list ki class banaayi
     }
 
     void insert_at_specific(){
-        if (head == NULL){ // Check kiya k list bani bhi hai ya nahi
+        if (head == NULL){ // check kiya k list bani hai ya nahi
             cout << "Pehle jaa k list banaao!!!!" << endl;
             return;
         }
@@ -102,6 +102,56 @@ class list{ //list ki class banaayi
             temp->next=current; // nayi node k next main current (agay wali node) ka address daal dia
         }
     }
+
+    void delete_at_start(){ // start se node delete karne k liye
+        if(head == NULL){ cout << "Pehle jaa k list banaao!!!!" << endl; return; }
+        node* temp = head; // temp main purana head rakha
+        head = head->next; // head ko agli node pe shift kar dia
+        delete temp; // purani node memory se khatam
+    }
+
+    void delete_at_end(){ // end se node delete karne k liye
+        if(head == NULL){ cout << "Pehle jaa k list banaao!!!!" << endl; return; }
+        if(head == tail){ // agar sirf aik hi node ho
+            delete head;
+            head = tail = NULL;
+        } else {
+            node* temp = head;
+            while(temp->next != tail){ // tail se aik pehle wali node tak pohnchna hai
+                temp = temp->next;
+            }
+            delete tail; // akhri node delete ki
+            tail = temp; // tail ko peeche move kar dia
+            tail->next = NULL; // nai tail ka next null kar dia
+        }
+    }
+
+    void delete_at_specific(){ // kisi khaas position se delete karne k liye
+        if (head == NULL){ cout << "Pehle jaa k list banaao!!!!" << endl; return; }
+        node* previous, *current;
+        int position, count = 1;
+        cout << "Enter position to delete: ";
+        cin >> position;
+
+        if(position == 1){ // agar pehli hi node delete karni ho
+            delete_at_start();
+            return;
+        }
+
+        previous = NULL;
+        current = head;
+        while(count != position){ // desired position tak pohncho
+            previous = current;
+            current = current->next;
+            count++;
+        }
+
+        if(count == position){ // position mil gayi
+            previous->next = current->next; // peeche wali node ka link agay wali se jorr dia
+            if(current == tail) tail = previous; // agar akhri node delete hui toa tail update ki
+            delete current; // node delete kar di
+        }
+    }
 };
 
 int main(){
@@ -112,6 +162,7 @@ int main(){
         cout << "1. Create Linked List\n";
         cout << "2. Insert Node\n";
         cout << "3. Display List\n";
+        cout << "4. Delete Node\n";
         cout << "0. Exit\n";
         cout << "Enter choice: ";
         cin >> choice;
@@ -155,8 +206,38 @@ int main(){
             l.display();
             break;
 
+        case 4: {
+            int delete_choice;
+            do {
+                cout << "\n--- DELETE MENU ---\n";
+                cout << "1. Delete from Start\n";
+                cout << "2. Delete from End\n";
+                cout << "3. Delete from Position\n";
+                cout << "0. Back to Main Menu\n";
+                cout << "Enter choice: ";
+                cin >> delete_choice;
+
+                switch (delete_choice) {
+                case 1:
+                    l.delete_at_start();
+                    break;
+                case 2:
+                    l.delete_at_end();
+                    break;
+                case 3:
+                    l.delete_at_specific();
+                    break;
+                case 0:
+                    break;
+                default:
+                    cout << "Invalid option!\n";
+                }
+            } while (delete_choice != 0);
+            break;
+        }
+
         case 0:
-            cout << "aaj k liye itna e kaafi hai aap ki tarah hum b maayoos hain!!!!!!...\n";
+            cout << "AAJ k liye itna e aap ki tarah hum b mayoos hain!!!!!!...\n";
             break;
 
         default:
@@ -164,4 +245,5 @@ int main(){
         }
 
     } while (choice != 0);
+
 }
