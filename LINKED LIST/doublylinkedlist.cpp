@@ -102,7 +102,7 @@ class doublylinkedlist{
   void delete_at_end(){
     node* temp= tail;
     temp->previous->next= NULL;
-    tail= temp->previous;
+    tail= tail->previous;
     delete temp;
   }
   void delete_at_specific(){
